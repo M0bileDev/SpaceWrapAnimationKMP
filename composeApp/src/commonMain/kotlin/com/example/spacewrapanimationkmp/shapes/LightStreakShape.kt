@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -23,7 +24,7 @@ fun LightStreakShape(
     scale: Float = 1f,
     offset: Float = 1f,
     color: Color = Color.Yellow,
-    cornerShapeSize: Dp = 0.dp,
+    cornerShapeSize: Dp = 8.dp,
     width: Dp = 10.dp,
     height: Dp = 40.dp,
     modifier: Modifier = Modifier
@@ -63,4 +64,10 @@ fun LightStreakShape(
                 .size(width = width, height = height),
         )
     }
+}
+
+@Preview
+@Composable
+fun PreviewLightStreakShape() {
+    LightStreakShape()
 }
