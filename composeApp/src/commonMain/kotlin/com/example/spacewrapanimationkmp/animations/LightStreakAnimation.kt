@@ -7,6 +7,8 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.spacewrapanimationkmp.shapes.LightStreakShape
 
 @Composable
 fun LightStreakAnimation(
@@ -38,4 +40,38 @@ fun LightStreakAnimation(
         )
     )
     onUpdate(scale, offset)
+}
+
+@Preview(backgroundColor = 0xFF000000, showBackground = true, widthDp = 1080, heightDp = 1920)
+@Composable
+fun PreviewLightStreakAnimationPortrait() {
+    LightStreakAnimation(
+        scale = 3f,
+        offset = -3360f,
+        durationMillis = 1000
+    ) { scale, offset ->
+        LightStreakShape(
+            degrees = 45f,
+            scale = scale,
+            offset = offset,
+            rotation = -70f,
+        )
+    }
+}
+
+@Preview(backgroundColor = 0xFF000000, showBackground = true, widthDp = 1920, heightDp = 1080)
+@Composable
+fun PreviewLightStreakAnimationLandscape() {
+    LightStreakAnimation(
+        scale = 3f,
+        offset = -3360f,
+        durationMillis = 1000
+    ) { scale, offset ->
+        LightStreakShape(
+            degrees = 45f,
+            scale = scale,
+            offset = offset,
+            rotation = -70f,
+        )
+    }
 }
