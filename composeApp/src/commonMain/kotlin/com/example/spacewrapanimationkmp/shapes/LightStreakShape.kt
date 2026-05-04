@@ -1,8 +1,12 @@
 package com.example.spacewrapanimationkmp.shapes
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +41,26 @@ fun LightStreakShape(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
+        Box(
+            modifier = Modifier
+                .background(
+                    color = color.copy(alpha = 0.5f),
+                    shape = RoundedCornerShape(cornerShapeSize)
+                )
+                .size(width = width, height = height),
+        )
+        Box(
+            modifier = Modifier
+                .background(color = color, shape = RoundedCornerShape(cornerShapeSize))
+                .size(width = width, height = height),
+        )
+        Box(
+            modifier = Modifier
+                .background(
+                    color = color.copy(alpha = 0.5f),
+                    shape = RoundedCornerShape(cornerShapeSize)
+                )
+                .size(width = width, height = height),
+        )
     }
 }
