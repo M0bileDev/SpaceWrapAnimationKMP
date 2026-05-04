@@ -19,6 +19,10 @@ fun Space(
             .fillMaxSize()
             .background(spaceBackground)
     ) {
-
+        when(spaceRepresentation){
+            is SpaceRepresentation.LightStreak -> {
+                // TODO: add implemention
+            }
+        }
     }
 }
