@@ -13,7 +13,8 @@ fun LightStreakAnimation(
     scale: Float = 1f,
     durationMillis: Int = 0,
     delayMillis: Int = 0,
-    offset: Float = 1f
+    offset: Float = 1f,
+    onUpdate: @Composable (Float, Float) -> Unit
 ) {
     val infiniteTransition = rememberInfiniteTransition()
     val scale by infiniteTransition.animateFloat(
@@ -36,4 +37,5 @@ fun LightStreakAnimation(
             ), RepeatMode.Restart
         )
     )
+    onUpdate(scale, offset)
 }
