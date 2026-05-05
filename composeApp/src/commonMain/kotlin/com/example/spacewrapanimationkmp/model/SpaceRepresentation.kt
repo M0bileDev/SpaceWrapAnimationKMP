@@ -12,8 +12,8 @@ interface SpaceRepresentation {
             Color.Magenta,
             Color.Green
         ),
-        val durationMillis: Int = 4000,
-        val lightStreakCount: Int = 400,
+        val durationMillis: Int = 6_000,
+        val lightStreakCount: Int = 100,
         val lightStreakGroupCount: Int = 2,
         val lightStreakRotation: Float = -70f,
         val scaleRange: IntRange = 1..6,
