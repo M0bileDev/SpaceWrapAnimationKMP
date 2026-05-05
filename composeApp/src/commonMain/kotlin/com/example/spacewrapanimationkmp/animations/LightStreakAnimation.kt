@@ -10,13 +10,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.spacewrapanimationkmp.shapes.LightStreakShape
 
+typealias Scale = Float
+typealias Offset = Float
+
 @Composable
 fun LightStreakAnimation(
     scale: Float = 1f,
     durationMillis: Int = 0,
     delayMillis: Int = 0,
     offset: Float = 1f,
-    onUpdate: @Composable (Float, Float) -> Unit
+    onUpdate: @Composable (Scale, Offset) -> Unit
 ) {
     val infiniteTransition = rememberInfiniteTransition()
     val scale by infiniteTransition.animateFloat(
