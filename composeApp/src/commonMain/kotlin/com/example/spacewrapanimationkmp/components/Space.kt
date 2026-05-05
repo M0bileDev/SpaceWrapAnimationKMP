@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalWindowInfo
 import com.example.spacewrapanimationkmp.model.SpaceRepresentation
 
 @Composable
@@ -19,9 +20,14 @@ fun Space(
             .fillMaxSize()
             .background(spaceBackground)
     ) {
-        when(spaceRepresentation){
+
+        val windowInfo = LocalWindowInfo.current
+        val widthPx = windowInfo.containerSize.width
+        val heightPx = windowInfo.containerSize.height
+
+        when (spaceRepresentation) {
             is SpaceRepresentation.LightStreak -> {
-                // TODO: add implemention
+
             }
         }
     }
