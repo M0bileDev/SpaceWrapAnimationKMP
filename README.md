@@ -6,9 +6,7 @@ the screen centre with a 3D perspective tilt. Runs from a single shared
 `commonMain` codebase on Android, iOS, Desktop (JVM), Web (JS), and Web
 (Wasm).
 
-<video src="screenshots/demo.mp4" controls width="600">
-  Your viewer doesn't render inline video — see <code>screenshots/demo.mp4</code>.
-</video>
+https://github.com/user-attachments/assets/3ccce841-607c-4888-9a75-d63e5c206e7d
 
 ## Supported targets
 
