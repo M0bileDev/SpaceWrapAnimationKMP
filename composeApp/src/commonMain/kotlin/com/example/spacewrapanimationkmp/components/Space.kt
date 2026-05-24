@@ -6,12 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalWindowInfo
 import com.example.spacewrapanimationkmp.animations.LightStreakAnimation
 import com.example.spacewrapanimationkmp.model.SpaceRepresentation
 import com.example.spacewrapanimationkmp.shapes.LightStreakShape
-import com.example.spacewrapanimationkmp.utils.Orientation
-import com.example.spacewrapanimationkmp.utils.currentOrientation
 import kotlin.random.Random
 
 @Composable
@@ -24,24 +21,8 @@ fun Space(
         modifier = modifier
             .background(spaceBackground)
     ) {
-
-        val windowInfo = LocalWindowInfo.current
-        val widthPx = windowInfo.containerSize.width
-        val heightPx = windowInfo.containerSize.height
-        val orientation = currentOrientation()
-
         when (spaceRepresentation) {
             is SpaceRepresentation.LightStreak -> {
-                val computedOffset = when (orientation) {
-                    Orientation.Portrait -> {
-                        -(widthPx * 3f)
-                    }
-
-                    Orientation.Landscape -> {
-                        -(heightPx * 3f)
-                    }
-                }
-
                 with(spaceRepresentation) {
                     val delayPerItems = durationMillis / lightStreakCount
                     repeat(lightStreakGroupCount) {
@@ -54,13 +35,12 @@ fun Space(
                                 delayMillis = streakDelay,
                                 durationMillis = durationMillis,
                                 scale = streakScale,
-                                offset = computedOffset,
-                            ) { scale, offset ->
+                            ) { scale, progress ->
                                 LightStreakShape(
                                     color = streakColor,
                                     degrees = streakDegrees,
                                     scale = scale,
-                                    offset = offset,
+                                    progress = progress,
                                     rotation = rotation,
                                 )
                             }

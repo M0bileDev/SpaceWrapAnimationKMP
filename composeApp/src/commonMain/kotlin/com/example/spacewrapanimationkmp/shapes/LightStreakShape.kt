@@ -22,7 +22,7 @@ fun LightStreakShape(
     degrees: Float = 0f,
     rotation: Float = 0f,
     scale: Float = 1f,
-    offset: Float = 1f,
+    progress: Float = 0f,
     color: Color = Color.Yellow,
     cornerShapeSize: Dp = 8.dp,
     width: Dp = 10.dp,
@@ -36,7 +36,7 @@ fun LightStreakShape(
                 rotationX = rotation
                 scaleX = scale
                 scaleY = scale
-                translationY = offset
+                translationY = -progress * size.maxDimension
             }
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
