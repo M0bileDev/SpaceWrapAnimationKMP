@@ -3,6 +3,7 @@ package com.example.spacewrapanimationkmp.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalWindowInfo
@@ -45,15 +46,19 @@ fun Space(
                     val delayPerItems = durationMillis / lightStreakCount
                     repeat(lightStreakGroupCount) {
                         repeat(lightStreakCount) { index ->
+                            val streakDelay = remember { index * delayPerItems + (1..100).random() }
+                            val streakScale = remember { scaleRange.random().toFloat() }
+                            val streakColor = remember { colors.random() }
+                            val streakDegrees = remember { Random.nextFloat() * 360f }
                             LightStreakAnimation(
-                                delayMillis = index * delayPerItems + (1..100).random(),
+                                delayMillis = streakDelay,
                                 durationMillis = durationMillis,
-                                scale = scaleRange.random().toFloat(),
+                                scale = streakScale,
                                 offset = computedOffset,
                             ) { scale, offset ->
                                 LightStreakShape(
-                                    color = colors.random(),
-                                    degrees = Random.nextFloat() * 360f,
+                                    color = streakColor,
+                                    degrees = streakDegrees,
                                     scale = scale,
                                     offset = offset,
                                     rotation = rotation,
