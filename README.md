@@ -1,76 +1,98 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
+# SpaceWrapAnimationKMP
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+A Kotlin Multiplatform + Compose Multiplatform demo that renders an animated
+hyperspace-style "light streak" effect — streaks of colour fanning out from
+the screen centre with a 3D perspective tilt. Runs from a single shared
+`commonMain` codebase on Android, iOS, Desktop (JVM), Web (JS), and Web
+(Wasm).
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+https://github.com/user-attachments/assets/3ccce841-607c-4888-9a75-d63e5c206e7d
 
-### Build and Run Android Application
+## Supported targets
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+| Target              | Source set     | Entry point                       |
+|---------------------|----------------|-----------------------------------|
+| Android             | `androidMain`  | `MainActivity`                    |
+| iOS (arm64 + sim)   | `iosMain`      | `MainViewController` (Swift)      |
+| Desktop (JVM)       | `jvmMain`      | `main.kt`                         |
+| Web (Wasm)          | `wasmJsMain`   | `webMain/main.kt`                 |
+| Web (JS)            | `jsMain`       | `webMain/main.kt`                 |
 
-### Build and Run Desktop (JVM) Application
+JVM toolchain is 11; versions live in `gradle/libs.versions.toml`. The
+Compose hot-reload plugin is wired up for the Desktop target.
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
+## Build & run
 
-### Build and Run Web Application
+```shell
+# Android debug APK
+./gradlew :composeApp:assembleDebug
 
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE's toolbar or run it directly from the terminal:
-- for the Wasm target (faster, modern browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-- for the JS target (slower, supports older browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:jsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
-    ```
+# Desktop (JVM)
+./gradlew :composeApp:run
 
-### Build and Run iOS Application
+# Web — Wasm (preferred, modern browsers)
+./gradlew :composeApp:wasmJsBrowserDevelopmentRun
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+# Web — JS (older browsers)
+./gradlew :composeApp:jsBrowserDevelopmentRun
+```
 
----
+iOS: open `iosApp/` in Xcode and run, or use the IDE run configuration. The
+Kotlin code is exposed as a static framework named `ComposeApp`.
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+## Usage
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+The whole effect is a single composable that takes a `SpaceRepresentation`:
+
+```kotlin
+import com.example.spacewrapanimationkmp.components.Space
+import com.example.spacewrapanimationkmp.model.SpaceRepresentation
+
+@Composable
+fun App() = MaterialTheme {
+    Space(
+        modifier = Modifier.fillMaxSize(),
+        spaceRepresentation = SpaceRepresentation.LightStreak()
+    )
+}
+```
+
+`SpaceRepresentation` is a sealed-style interface; today only the
+`LightStreak` variant is implemented. Add new visual modes by adding a new
+nested `data class` and a branch to the `when` inside `Space`.
+
+### LightStreak configuration
+
+All parameters are optional and have sensible defaults:
+
+| Parameter                | Default                                | Effect                              |
+|--------------------------|----------------------------------------|-------------------------------------|
+| `colors`                 | yellow, blue, red, cyan, magenta, green| Pool sampled randomly per streak    |
+| `durationMillis`         | `6_000`                                | One full streak travel cycle        |
+| `lightStreakCount`       | `100`                                  | Streaks per group                   |
+| `lightStreakGroupCount`  | `1`                                    | Number of staggered groups          |
+| `scaleRange`             | `1..4`                                 | Per-streak max scale, sampled       |
+| `rotation`               | `-70f`                                 | `rotationX` tilt (degrees)          |
+
+Background colour is a separate `Space` parameter (`spaceBackground`,
+default `Color.Black`).
+
+## Project layout
+
+Single Gradle module: `:composeApp`.
+
+```
+composeApp/src/
+  commonMain/kotlin/com/example/spacewrapanimationkmp/
+    App.kt                                    # root composable
+    Platform.kt                               # expect interface
+    animations/LightStreakAnimation.kt        # rememberInfiniteTransition wrapper
+    components/Space.kt                       # entry composable, spawns streaks
+    model/SpaceRepresentation.kt              # configuration sealed-style interface
+    shapes/LightStreakShape.kt                # three-box streak primitive
+  androidMain/ iosMain/ jvmMain/ jsMain/      # platform entry points + actual getPlatform()
+  wasmJsMain/ webMain/                        # web entry + browser resources
+```
+
+See `CLAUDE.md` for deeper notes on the animation pipeline and the
+recomposition rules that have to be respected when extending it.
