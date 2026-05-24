@@ -14,8 +14,8 @@ interface SpaceRepresentation {
         ),
         val durationMillis: Int = 6_000,
         val lightStreakCount: Int = 100,
-        val lightStreakGroupCount: Int = 2,
-        val scaleRange: IntRange = 1..6,
+        val lightStreakGroupCount: Int = 1,
+        val scaleRange: IntRange = 1..4,
         val rotation: Float = -70f
     ) : SpaceRepresentation
 }
