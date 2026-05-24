@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -32,10 +29,6 @@ fun LightStreakShape(
     height: Dp = 40.dp,
     modifier: Modifier = Modifier
 ) {
-
-    val degrees by remember { mutableStateOf(degrees) }
-    val color by remember { mutableStateOf(color) }
-
     Column(
         modifier = modifier
             .rotate(degrees)
