@@ -1,6 +1,7 @@
 package com.example.spacewrapanimationkmp.animations
 
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.StartOffset
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -21,26 +22,26 @@ fun LightStreakAnimation(
     offset: Float = 1f,
     onUpdate: @Composable (Scale, Offset) -> Unit
 ) {
-    val infiniteTransition = rememberInfiniteTransition()
+    val infiniteTransition = rememberInfiniteTransition(label = "LightStreak")
     val scale by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = scale,
         animationSpec = infiniteRepeatable(
-            tween(
-                delayMillis = delayMillis,
-                durationMillis = durationMillis
-            ), RepeatMode.Restart
-        )
+            animation = tween(durationMillis = durationMillis),
+            repeatMode = RepeatMode.Restart,
+            initialStartOffset = StartOffset(delayMillis)
+        ),
+        label = "LightStreakScale"
     )
     val offset by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = offset,
         animationSpec = infiniteRepeatable(
-            tween(
-                delayMillis = delayMillis,
-                durationMillis = durationMillis
-            ), RepeatMode.Restart
-        )
+            animation = tween(durationMillis = durationMillis),
+            repeatMode = RepeatMode.Restart,
+            initialStartOffset = StartOffset(delayMillis)
+        ),
+        label = "LightStreakOffset"
     )
     onUpdate(scale, offset)
 }
